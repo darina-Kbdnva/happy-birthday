@@ -92,6 +92,9 @@
             opacity: 1;
             animation: bounce infinite;
         }
+        .decoration {
+            display:flex;
+        }
     </style>
 </head>
 <body>
@@ -104,7 +107,18 @@
     </div>
     <div class="congratulations">С ДНЕМ РОЖДЕНИЯ ТЕБЯ, МАМА!!!</div>
     <audio id="birthdayAudio" src="s-dnem-rozhdeniya-fanfara-s-dnem-rozhdeniya.mp3" loop></audio>
-
+    <div class="decoration">
+        <img src="ballon1">
+        <img src="ballon2">
+        <img src="ballon3">
+        <img src="ballon4">
+        <img src="ballon5">
+        <img src="heart">
+        <img src="heart1">
+        <img src="heart2">
+        <img src="heart3">
+        <img src="heart4">
+    </div>
     <script>
         const sunButton = document.querySelector('.sun');
         const nightSky = document.querySelector('.night-sky');
@@ -153,7 +167,7 @@
             if (textElement.innerHTML === "С добрым утром!") {
                 textElement.innerHTML = "Заметила, что ты и есть солнышко?";
             } else if (textElement.innerHTML === "Заметила, что ты и есть солнышко?") {
-                textElement.innerHTML = "Потому, что ты освещаешь наши жизни!";
+                textElement.innerHTML = "Потому что ты освещаешь наши жизни!";
             } else if (textElement.innerHTML === "Потому, что ты освещаешь наши жизни!") {
                 textElement.innerHTML = "Мы тебя очень любим!!";
             } else if (textElement.innerHTML === "Мы тебя очень любим!!") {
