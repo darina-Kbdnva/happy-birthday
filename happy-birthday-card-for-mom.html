@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Для Мамы</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+        .sunrise-sky {
+            background: radial-gradient(rgb(255, 233, 106), rgb(255, 199, 94), rgb(241, 96, 103));
+            display: none;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s;
+        }
+        .night-sky {
+            background: linear-gradient(to bottom, darkblue, black);
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 1;
+            transition: opacity 1s;
+        }
+        .sun {
+            position: absolute;
+            background-color: rgb(255, 255, 179);
+            margin: auto;
+            top: calc(100% - 60px); 
+            left: 50%;
+            transform: translateX(-50%);
+            cursor: grab;
+            border: none;
+            transition: top 1s;
+        }
+        .new-message {
+            position: absolute;
+            top: 250px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: white;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: Arial, sans-serif;
+            visibility: hidden;
+            opacity: 0;
+            display: flex;
+            transition: visibility 0s, opacity 1s;
+        }
+        .triangle {
+            margin-left: 8px;
+            cursor: pointer;
+        }
+        .congratulations {
+            position: absolute;
+            visibility: hidden;
+            opacity: 0;
+            transform: translate(-50%, -50%);
+            background-color: rgb(255, 228, 95);
+            top: 50%;
+            left: 50%;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            transition: visibility 0s, opacity 1s;
+            
+            animation: bounce infinite;
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            40% {
+                transform: translateX(-50%) translateY(-30px);
+            }
+            60% {
+                transform: translateX(-50%) translateY(-15px);
+            }
+        }
+        .new-message.shown {
+            visibility: visible;
+            opacity: 1;
+            animation: bounce 1s;
+        }
+        .congratulations.shown {
+            visibility: visible;
+            opacity: 1;
+            animation: bounce infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="night-sky"></div>
+    <div class="sunrise-sky"></div>
+    <button class="sun">Потяни вверх чтобы настало утро!</button>
+    <div class="new-message">
+        <div class="text">С добрым утром!</div>
+        <div class="triangle">▶</div>
+    </div>
+    <div class="congratulations">С ДНЕМ РОЖДЕНИЯ ТЕБЯ, МАМА!!!</div>
+    <audio id="birthdayAudio" src="s-dnem-rozhdeniya-fanfara-s-dnem-rozhdeniya.mp3" loop></audio>
+
+    <script>
+        const sunButton = document.querySelector('.sun');
+        const nightSky = document.querySelector('.night-sky');
+        const sunriseSky = document.querySelector('.sunrise-sky');
+        const newMessage = document.querySelector('.new-message');
+        const congratulations = document.querySelector(".congratulations");
+        const birthdayAudio = document.getElementById("birthdayAudio");
+
+        let isDragging = false;
+        let initialY = 0;
+
+        sunButton.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            initialY = e.clientY;
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                const dy = initialY - e.clientY;
+                if (dy > 0) {
+                    const percent = Math.min(dy / window.innerHeight, 1);
+                    nightSky.style.opacity = 1 - percent;
+                    sunriseSky.style.display = 'block';
+                    sunriseSky.style.opacity = percent;
+
+                    congrats();
+                }
+            }
+        });
+
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
+
+        function congrats() {
+            if (parseFloat(sunriseSky.style.opacity) >= 0.3) {
+                newMessage.classList.add('shown');
+                sunButton.style.visibility = 'hidden';
+            }
+        }
+
+        newMessage.addEventListener("click", changeText);
+
+        function changeText() {
+            const textElement = document.querySelector('.text');
+            if (textElement.innerHTML === "С добрым утром!") {
+                textElement.innerHTML = "Заметила, что ты и есть солнышко?";
+            } else if (textElement.innerHTML === "Заметила, что ты и есть солнышко?") {
+                textElement.innerHTML = "Потому, что ты освещаешь наши жизни!";
+            } else if (textElement.innerHTML === "Потому, что ты освещаешь наши жизни!") {
+                textElement.innerHTML = "Мы тебя очень любим!!";
+            } else if (textElement.innerHTML === "Мы тебя очень любим!!") {
+                congratulations.classList.add('shown');
+                document.querySelector(".triangle").style.visibility = 'hidden';
+                birthdayAudio.play();
+            }
+        }
+    </script>
+</body>
+</html>
+
